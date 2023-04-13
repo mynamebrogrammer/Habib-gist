@@ -62,7 +62,7 @@ A regex component is like a building block, there are several building blocks th
 
 - Bracket expressions are used to match a single character out of several possible characters. For example, `/[abc]/` will match any of the characters `a`, `b`, or `c`. You can also specify a range of characters using a hyphen - inside a bracket expression. For example, [a-z] matches any lowercase letter from "a" to "z", [0-9] matches any digit from 0 to 9, and [A-Za-z] matches any uppercase or lowercase letter.
 - In our example, `^([a-z0-9_\.-]` matches any lowercase letter, digit, underscore, dot, or hyphen. It allows for one character from this set to occur one or more times consecutively. This is used to define the username part of the email address, which can consist of lowercase letters, digits, underscores, dots, or hyphens.
-- `[\da-z\.-]` matches any digit, lowercase letter, dot, or hyphen. It allows for one character from this set to occur one or more times consecutively. This is used to define the domain name part of the email address, which can consist of digits, lowercase letters, dots, or hyphens. 
+- `[\da-z\.-]` matches any digit, lowercase letter, dot, or hyphen. It allows for one character from this set to occur one or more times consecutively. This is used to define the domain name part of the email address, which can consist of digits, lowercase letters, dots, or hyphens.
 - `[a-z\.]` matches any lowercase letter or dot. It allows for one character from this set to occur between two and six times consecutively. This is used to define the top-level domain part of the email address, which can consist of lowercase letters or dots.
 
 ### Greedy and Lazy Match
