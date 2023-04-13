@@ -60,13 +60,34 @@ A regex component is like a building block, there are several building blocks th
 
 ### Bracket Expressions
 
+- Bracket expressions are used to match a single character out of several possible characters. For example, `/[abc]/` will match any of the characters `a`, `b`, or `c`. You can also specify a range of characters using a hyphen - inside a bracket expression. For example, [a-z] matches any lowercase letter from "a" to "z", [0-9] matches any digit from 0 to 9, and [A-Za-z] matches any uppercase or lowercase letter.
+- In our example, `^([a-z0-9_\.-]` matches any lowercase letter, digit, underscore, dot, or hyphen. It allows for one character from this set to occur one or more times consecutively. This is used to define the username part of the email address, which can consist of lowercase letters, digits, underscores, dots, or hyphens.
+- `[\da-z\.-]` matches any digit, lowercase letter, dot, or hyphen. It allows for one character from this set to occur one or more times consecutively. This is used to define the domain name part of the email address, which can consist of digits, lowercase letters, dots, or hyphens. 
+- `[a-z\.]` matches any lowercase letter or dot. It allows for one character from this set to occur between two and six times consecutively. This is used to define the top-level domain part of the email address, which can consist of lowercase letters or dots.
+
 ### Greedy and Lazy Match
+
+- In regular expressions, "greedy" and "lazy" are quantifiers that control the behavior of how many characters are matched by a pattern. Specifically, they determine whether a pattern should match as much text as possible (greedy) or as little text as possible (lazy).
+- In our example, the quantifiers + and {2,6} are used to specify how many occurrences of a preceding element should be matched.
+- Greedy Quantifier +: The + after [a-z0-9_\.-] and [\da-z\.-] are greedy quantifiers, which match one or more occurrences of the preceding element as many times as possible. This means that they will try to match as much text as possible, potentially including more characters than needed. For example, if the input text is "abc123_DEF@example.com", the pattern would match the entire email address "abc123_DEF@example.com" because the + quantifiers would match all the characters before the "@" symbol and all the characters between the "@" symbol and the last dot in the domain name.
+- Lazy Quantifier {2,6}: The {2,6} after [a-z\.] is a greedy quantifier, which matches a sequence of 2 to 6 occurrences of the preceding element. This means that it will try to match the maximum number of occurrences that satisfy the range specified (2 to 6). For example, if the input text is "abc123_DEF@example.com", the pattern would match the minimum possible characters to satisfy the {2,6} quantifier, which is "com" in the domain name part.
 
 ### Boundaries
 
+- Boundaries are used to specify the positions in the input text where a pattern should match, like we talked about earlier in the post. The `^` character is used to match the beginning of the input text, and the `$` character is used to match the end of the input text.
+
 ### Back-references
 
+- Back-references are used to refer back to a previously captured group and match the same text again. Our example includes 3 capturing groups, which are numbered in the order of their occurrence.
+- `([a-z0-9_\.-]+)`: This is the first group, which captures the username part of the email address. It allows for one or more occurrences of lowercase letters, digits, underscores, dots, or hyphens. The captured text can be referred to as \1.
+- `([\da-z\.-]+)`: This is the second group, which captures the domain name part of the email address. It allows for one or more occurrences of digits, lowercase letters, dots, or hyphens. The captured text can be referred to as \2.
+- `([a-z\.]{2,6})`: This is the third group, which captures the top-level domain part of the email address. It allows for two to six occurrences of lowercase letters or dots. The captured text can be referred to as \3.
+
 ### Look-ahead and Look-behind
+
+- Look-ahead and look-behind are special types of assertions in regular expressions that allow you to match based on the presence or absence of a pattern ahead of or behind the current position in the string, without actually including the matched text in the final match result. Look-ahead assertions are denoted by `(?=pattern)` syntax, and look-behind assertions are denoted by `(?<=pattern)` syntax.
+- Our regex pattern ^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$ does not include any look-ahead or look-behind assertions. It is a simple pattern for matching email addresses that follows a specific structure
+- An example would be: `(?<=user_)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$` to match email addresses that start with the prefix "user_".
 
 ## Author
 
